@@ -1,109 +1,82 @@
-<html>
-<title>Climate change</title>
-<img src="img13.jpg"width=90 height=90 alt="goku pic">
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.navbar {
-  overflow: hidden;
-  background-color: #333;
-}
-
-.navbar a {
-  float: left;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-
-.dropdown .dropbtn {
-  font-size: 16px;  
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
-}
-
-.navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: grey;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Change | Home</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="img13.jpg" width="40" height="40" alt="Logo">
+            Climate Action
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="climate2.html">Evidence</a>
+            <a href="climate3.html">Causes</a>
+            <a href="feedback.html">Feedback</a>
+        </div>
+    </nav>
 
-<div class="navbar">
-  <a href="#home">Home</a>
-  <a href="#news">News</a>
-  <div class="dropdown">
-    <button class="dropbtn">Dropdown 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="climate2.html">What do we know?</a>
-      <a href="climate3.html">Causes of climate change.</a>
-      <a href="feedback.html">Feedback</a>
-    </div>
-</div>
-</div>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Understanding Climate Change</h1>
+            <p>Climate change refers to long-term shifts in temperatures and weather patterns. While natural shifts occur, human activities have become the main driver of these changes, primarily due to the burning of fossil fuels.</p>
+            <div class="button-group" style="justify-content: center;">
+                <a href="climate2.html" class="btn btn-primary">Explore the Evidence</a>
+                <a href="climate3.html" class="btn btn-secondary">Learn the Causes</a>
+            </div>
+        </div>
+    </header>
 
-<iframe frameBorder="0" src="p1.html"height=100% width=100% ></iframe>
+    <main class="container">
+        <h2 class="section-title">The Impact</h2>
+        <div class="grid">
+            <div class="glass-card">
+                <div class="img-container">
+                    <img src="earth.gif" class="img-fluid" alt="Earth animation">
+                </div>
+                <h3>The Greenhouse Effect</h3>
+                <p>Burning fossil fuels generates greenhouse gas emissions that act like a blanket wrapped around the Earth, trapping the sun’s heat and raising temperatures.</p>
+            </div>
+            
+            <div class="glass-card">
+                <div class="img-container">
+                    <img src="glacier.jpg" class="img-fluid" alt="Melting glacier">
+                </div>
+                <h3>Major Emitters</h3>
+                <p>Examples of greenhouse gas emissions that are causing climate change include carbon dioxide and methane. Clearing land and forests can also release carbon dioxide. Landfills for garbage are a major source of methane emissions.</p>
+            </div>
 
-<font size=6 >
-<br>What is climate change?</br>
-</font>
-<p>Climate change refers to long-term shifts in temperatures and weather patterns. These shifts may be natural, such as through variations in the solar cycle. 
-But since the 1800s, human activities have been the main driver of climate change,
- primarily due to burning fossil fuels like coal, oil and gas.
+            <div class="glass-card">
+                <div class="img-container">
+                    <img src="img3.jpg" class="img-fluid" alt="Industry emissions">
+                </div>
+                <h3>Human Activity</h3>
+                <p>Energy, industry, transport, buildings, agriculture and land use are among the main emitters. Since the 1800s, our actions have profoundly reshaped the global climate system.</p>
+            </div>
+        </div>
+    </main>
 
-<p>Burning fossil fuels generates greenhouse gas emissions that act like a blanket wrapped around the Earth, trapping the sun’s heat and raising temperatures.
+    <footer>
+        <p>&copy; 2026 Climate Action Project. Built with modern web technologies.</p>
+    </footer>
 
-<p>Examples of greenhouse gas emissions that are causing climate change include carbon dioxide and methane. These come from using gasoline for driving a car or
-coal for heating a building, for example. Clearing land and forests can also release carbon dioxide. Landfills for garbage are a major source of methane 
-emissions. Energy, industry, transport, buildings, agriculture and land use are among the main emitters</P>
-<img src="earth.gif"width=400 height=300 alt="goku pic">
-</right>
-</br>
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+        
+        document.querySelectorAll('.glass-card').forEach((el) => {
+            el.classList.add('animate-on-scroll');
+            observer.observe(el);
+        });
+    </script>
 </body>
-
-
+</html>
