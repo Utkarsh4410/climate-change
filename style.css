@@ -1,16 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
 
 :root {
-  --bg-color: #0d1117;
+  --bg-color: #0a0e1a;
   --surface-color: rgba(255, 255, 255, 0.05);
   --surface-border: rgba(255, 255, 255, 0.1);
   --text-primary: #e6edf3;
   --text-secondary: #8b949e;
   --accent-color: #58a6ff;
   --accent-hover: #79c0ff;
-  --glass-bg: rgba(13, 17, 23, 0.7);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-bg: rgba(10, 14, 26, 0.75);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
   --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --tilt-perspective: 1200px;
 }
 
 * {
@@ -25,8 +26,9 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;
-  background-image: radial-gradient(circle at 50% 0%, #1f2937 0%, transparent 50%),
-                    radial-gradient(circle at 100% 100%, rgba(88, 166, 255, 0.1) 0%, transparent 50%);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(88,166,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(88,166,255,0.05) 0%, transparent 50%);
   background-attachment: fixed;
 }
 
@@ -359,7 +361,7 @@ footer {
   }
   
   .nav-links {
-    display: none; /* In a real app we'd add a hamburger menu */
+    display: none;
   }
   
   .hero h1 {
@@ -369,4 +371,353 @@ footer {
   .section-title {
     font-size: 2rem;
   }
+}
+
+/* ─── 3D Hero Canvas ────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+#earth-canvas-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ─── 3D Tilt Card System ───────────────────────────────────────────── */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: var(--tilt-perspective);
+  will-change: transform;
+  cursor: default;
+  transition: box-shadow 0.3s ease;
+}
+
+.tilt-card:hover {
+  box-shadow: 0 20px 60px rgba(88, 166, 255, 0.2), 0 0 0 1px rgba(88, 166, 255, 0.3);
+}
+
+/* Glare overlay on cards */
+.card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.card-glare::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255,255,255,0.12) 0%,
+    rgba(255,255,255,0.04) 30%,
+    transparent 70%);
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+.tilt-card:hover .card-glare::after {
+  opacity: 1;
+}
+
+/* ─── Stat Counters ─────────────────────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin: 4rem 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.6s ease;
+}
+
+.stat-card.visible::before {
+  transform: scaleX(1);
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  display: block;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+/* ─── Progress Bars ─────────────────────────────────────────────────── */
+.progress-section {
+  margin: 3rem 0;
+}
+
+.progress-item {
+  margin-bottom: 1.8rem;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.progress-track {
+  height: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 50px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent-color), #3178c6);
+  box-shadow: 0 0 12px rgba(88, 166, 255, 0.5);
+  transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Molecule Canvas ───────────────────────────────────────────────── */
+#molecule-canvas {
+  width: 100%;
+  height: 340px;
+  border-radius: 24px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--surface-border);
+  margin: 3rem 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.molecule-label {
+  position: absolute;
+  bottom: 1rem;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.molecule-label span {
+  background: rgba(0,0,0,0.5);
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  border: 1px solid var(--surface-border);
+}
+
+/* ─── Gas Cause Cards: highlight on click ───────────────────────────── */
+.gas-card {
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.gas-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 30px rgba(88, 166, 255, 0.2);
+}
+
+.gas-card.pulse {
+  animation: pulse-glow 0.6s ease;
+}
+
+@keyframes pulse-glow {
+  0%   { box-shadow: 0 0 0px rgba(88,166,255,0); }
+  50%  { box-shadow: 0 0 40px rgba(88,166,255,0.5); transform: scale(1.03); }
+  100% { box-shadow: 0 0 0px rgba(88,166,255,0); }
+}
+
+/* ─── Form Micro-interactions ───────────────────────────────────────── */
+.form-control {
+  position: relative;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15), 0 0 20px rgba(88, 166, 255, 0.1);
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.btn-3d {
+  position: relative;
+  transform: translateY(0) translateZ(0);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.4), 0 4px 15px rgba(88, 166, 255, 0.3);
+}
+
+.btn-3d:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 rgba(0,0,0,0.4), 0 8px 25px rgba(88, 166, 255, 0.4);
+}
+
+.btn-3d:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.4), 0 2px 8px rgba(88, 166, 255, 0.2);
+}
+
+/* ─── Confetti Canvas ───────────────────────────────────────────────── */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Floating Badge (hero) ─────────────────────────────────────────── */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  border-radius: 50px;
+  padding: 0.4rem 1.2rem;
+  font-size: 0.85rem;
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease-out 0.2s both;
+}
+
+.hero-badge-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  animation: blink 1.6s ease infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.7); }
+}
+
+/* ─── Scroll indicator ──────────────────────────────────────────────── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  z-index: 10;
+  animation: fadeUp 1s 1s ease-out both;
+}
+
+.scroll-mouse {
+  width: 24px; height: 38px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.scroll-mouse-dot {
+  width: 4px; height: 8px;
+  background: var(--accent-color);
+  border-radius: 2px;
+  animation: scroll-dot 1.8s ease infinite;
+}
+
+@keyframes scroll-dot {
+  0%   { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 0; transform: translateY(0); }
+}
+
+/* ─── Grid shimmer overlay ──────────────────────────────────────────── */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ─── Section intro text animation ─────────────────────────────────── */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Staggered delay variants */
+.animate-on-scroll:nth-child(2) { transition-delay: 0.12s; }
+.animate-on-scroll:nth-child(3) { transition-delay: 0.24s; }
+.animate-on-scroll:nth-child(4) { transition-delay: 0.36s; }
+.animate-on-scroll:nth-child(5) { transition-delay: 0.48s; }
+
+/* ─── Success message ───────────────────────────────────────────────── */
+.success-msg {
+  display: none;
+  text-align: center;
+  padding: 3rem;
+  animation: fadeUp 0.6s ease;
+}
+
+.success-msg .success-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.success-msg h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.success-msg p {
+  color: var(--text-secondary);
 }

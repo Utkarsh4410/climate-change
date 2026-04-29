@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Climate Change | Home</title>
+    <meta name="description" content="Explore the facts, evidence, and causes of climate change. An interactive 3D experience powered by real science.">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,29 +21,48 @@
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Understanding Climate Change</h1>
+    <!-- ── 3D Earth Hero ── -->
+    <header class="hero" style="min-height: 100vh;">
+        <!-- Three.js canvas is injected here by JS -->
+        <div id="earth-canvas-container"></div>
+
+        <div class="hero-content" style="animation: fadeUp 1s ease-out 0.3s both;">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Live Climate Data &amp; 3D Visualization
+            </div>
+            <h1>Understanding<br>Climate Change</h1>
             <p>Climate change refers to long-term shifts in temperatures and weather patterns. While natural shifts occur, human activities have become the main driver of these changes, primarily due to the burning of fossil fuels.</p>
             <div class="button-group" style="justify-content: center;">
-                <a href="climate2.html" class="btn btn-primary">Explore the Evidence</a>
+                <a href="climate2.html" class="btn btn-primary btn-3d">Explore the Evidence</a>
                 <a href="climate3.html" class="btn btn-secondary">Learn the Causes</a>
             </div>
         </div>
+
+        <!-- Scroll hint -->
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-mouse-dot"></div>
+            </div>
+            <span>Scroll</span>
+        </div>
     </header>
 
+    <!-- ── Impact Cards ── -->
     <main class="container">
         <h2 class="section-title">The Impact</h2>
         <div class="grid">
-            <div class="glass-card">
+            <div class="glass-card tilt-card">
+                <div class="card-glare"></div>
                 <div class="img-container">
                     <img src="earth.gif" class="img-fluid" alt="Earth animation">
                 </div>
                 <h3>The Greenhouse Effect</h3>
-                <p>Burning fossil fuels generates greenhouse gas emissions that act like a blanket wrapped around the Earth, trapping the sun’s heat and raising temperatures.</p>
+                <p>Burning fossil fuels generates greenhouse gas emissions that act like a blanket wrapped around the Earth, trapping the sun's heat and raising temperatures.</p>
             </div>
-            
-            <div class="glass-card">
+
+            <div class="glass-card tilt-card">
+                <div class="card-glare"></div>
                 <div class="img-container">
                     <img src="glacier.jpg" class="img-fluid" alt="Melting glacier">
                 </div>
@@ -50,7 +70,8 @@
                 <p>Examples of greenhouse gas emissions that are causing climate change include carbon dioxide and methane. Clearing land and forests can also release carbon dioxide. Landfills for garbage are a major source of methane emissions.</p>
             </div>
 
-            <div class="glass-card">
+            <div class="glass-card tilt-card">
+                <div class="card-glare"></div>
                 <div class="img-container">
                     <img src="img3.jpg" class="img-fluid" alt="Industry emissions">
                 </div>
@@ -64,18 +85,62 @@
         <p>&copy; 2026 Climate Action Project. Built with modern web technologies.</p>
     </footer>
 
+    <!-- Three.js + GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="three-scene.js"></script>
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        /* ── Init 3D Earth ── */
+        window.addEventListener('DOMContentLoaded', () => {
+            initEarth('earth-canvas-container');
+        });
+
+        /* ── GSAP ScrollTrigger: card entrance ── */
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.glass-card').forEach((card, i) => {
+            gsap.fromTo(card,
+                { opacity: 0, y: 60, scale: 0.95 },
+                {
+                    opacity: 1, y: 0, scale: 1,
+                    duration: 0.9,
+                    delay: i * 0.12,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%',
+                    }
+                }
+            );
+        });
+
+        /* ── 3D Tilt on hover ── */
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            const glare = card.querySelector('.card-glare');
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width  - 0.5;
+                const y = (e.clientY - rect.top)  / rect.height - 0.5;
+
+                const rotX = y * -18;
+                const rotY = x *  18;
+
+                card.style.transform = `perspective(${getComputedStyle(document.documentElement).getPropertyValue('--tilt-perspective')}) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
+
+                if (glare) {
+                    const gx = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1);
+                    const gy = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
+                    glare.style.setProperty('--gx', `${gx}%`);
+                    glare.style.setProperty('--gy', `${gy}%`);
                 }
             });
-        });
-        
-        document.querySelectorAll('.glass-card').forEach((el) => {
-            el.classList.add('animate-on-scroll');
-            observer.observe(el);
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease';
+                setTimeout(() => { card.style.transition = ''; }, 500);
+            });
         });
     </script>
 </body>

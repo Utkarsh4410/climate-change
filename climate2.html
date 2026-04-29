@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Climate Change | Evidence</title>
+    <meta name="description" content="Scientific evidence for rapid climate change — rising temperatures, warming oceans, shrinking ice sheets, and rising sea levels.">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,46 +21,102 @@
         </div>
     </nav>
 
+    <!-- ── Hero ── -->
     <header class="hero" style="min-height: 50vh; padding-top: 10rem;">
         <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Peer-Reviewed Scientific Consensus
+            </div>
             <h1>How Do We Know?</h1>
             <p>Earth-orbiting satellites and other technological advances have enabled scientists to see the big picture, collecting many different types of information about our planet and its climate on a global scale.</p>
         </div>
     </header>
 
     <main class="container" style="padding-top: 2rem;">
-        <div class="glass-card" style="margin-bottom: 4rem;">
-            <img src="img5.jpg" class="img-fluid" alt="CO2 levels graph" style="margin-bottom: 2rem;">
+
+        <!-- ── Animated Stat Counters ── -->
+        <div class="stats-row" id="stats-row">
+            <div class="stat-card" data-target="1.2" data-suffix="°C" data-prefix="+">
+                <span class="stat-number" id="stat-temp">+0.0°C</span>
+                <span class="stat-label">Global Temperature Rise since 1880</span>
+            </div>
+            <div class="stat-card" data-target="48" data-suffix="%" data-prefix="+">
+                <span class="stat-number" id="stat-co2">+0%</span>
+                <span class="stat-label">Atmospheric CO₂ Increase since 1750</span>
+            </div>
+            <div class="stat-card" data-target="279" data-suffix="B tons" data-prefix="">
+                <span class="stat-number" id="stat-ice">0B tons</span>
+                <span class="stat-label">Greenland Ice Lost Per Year (avg)</span>
+            </div>
+            <div class="stat-card" data-target="8" data-suffix="in" data-prefix="+">
+                <span class="stat-number" id="stat-sea">+0in</span>
+                <span class="stat-label">Sea Level Rise since 1900</span>
+            </div>
+        </div>
+
+        <!-- ── Progress Bars ── -->
+        <div class="glass-card" style="margin-bottom: 4rem;" id="progress-card">
+            <h3 style="margin-bottom: 2rem; font-size: 1.4rem;">Contributing Factors to Global Warming</h3>
+            <div class="progress-section">
+                <div class="progress-item">
+                    <div class="progress-label"><span>Fossil Fuels (Coal, Oil, Gas)</span><span>89%</span></div>
+                    <div class="progress-track"><div class="progress-fill" data-width="89"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Deforestation &amp; Land Use</span><span>11%</span></div>
+                    <div class="progress-track"><div class="progress-fill" data-width="11"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Industrial Processes</span><span>6%</span></div>
+                    <div class="progress-track"><div class="progress-fill" data-width="6"></div></div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Agriculture &amp; Livestock</span><span>14%</span></div>
+                    <div class="progress-track"><div class="progress-fill" data-width="14"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── CO2 Graph ── -->
+        <div class="glass-card tilt-card" style="margin-bottom: 4rem;">
+            <div class="card-glare"></div>
+            <img src="img5.jpg" class="img-fluid" alt="CO2 levels graph" style="margin-bottom: 2rem; border-radius:16px;">
             <p style="font-size: 1.1rem; color: var(--text-secondary);">
-                This graph, based on the comparison of atmospheric samples contained in ancient ice cores and more recent direct measurements, provides evidence that atmospheric CO2 has increased dramatically since the Industrial Revolution compared to paleoclimatologic (past climate) measurements over the past 800,000 years.
+                This graph, based on the comparison of atmospheric samples contained in ancient ice cores and more recent direct measurements, provides evidence that atmospheric CO2 has increased dramatically since the Industrial Revolution compared to paleoclimatologic measurements over the past 800,000 years.
             </p>
         </div>
 
+        <!-- ── Quote ── -->
         <div class="quote">
             "Scientific evidence for warming of the climate system is unequivocal."<br>
-            <span style="font-size: 1rem; color: var(--text-secondary);">- Intergovernmental Panel on Climate Change</span>
+            <span style="font-size: 1rem; color: var(--text-secondary);">— Intergovernmental Panel on Climate Change</span>
         </div>
 
+        <!-- ── Evidence Cards ── -->
         <h2 class="section-title">The Evidence for Rapid Climate Change</h2>
-        
+
         <div class="grid">
-            <div class="glass-card">
+            <div class="glass-card tilt-card">
+                <div class="card-glare"></div>
                 <div class="img-container">
                     <img src="img6.jpg" class="img-fluid" alt="Global Temperature Rise">
                 </div>
                 <h3>Global Temperature Rise</h3>
-                <p>The planet's average surface temperature has risen about 2 degrees Fahrenheit (1 degrees Celsius) since the late 19th century, a change driven largely by increased carbon dioxide emissions into the atmosphere and other human activities. Most of the warming occurred in the past 40 years.</p>
+                <p>The planet's average surface temperature has risen about 2 degrees Fahrenheit (1 degree Celsius) since the late 19th century, a change driven largely by increased carbon dioxide emissions into the atmosphere and other human activities. Most of the warming occurred in the past 40 years.</p>
             </div>
 
-            <div class="glass-card">
+            <div class="glass-card tilt-card">
+                <div class="card-glare"></div>
                 <div class="img-container">
                     <img src="img7.jpeg" class="img-fluid" alt="Warming Ocean">
                 </div>
                 <h3>Warming Ocean</h3>
-                <p>The ocean has absorbed much of this increased heat, with the top 100 meters (about 328 feet) of ocean showing warming of more than 0.6 degrees Fahrenheit (0.33 degrees Celsius) since 1969. Earth stores 90% of the extra energy in the ocean.</p>
+                <p>The ocean has absorbed much of this increased heat, with the top 100 meters of ocean showing warming of more than 0.6 degrees Fahrenheit since 1969. Earth stores 90% of the extra energy in the ocean.</p>
             </div>
 
-            <div class="glass-card">
+            <div class="glass-card tilt-card">
+                <div class="card-glare"></div>
                 <div class="img-container">
                     <img src="img8.jpg" class="img-fluid" alt="Shrinking Ice Sheets">
                 </div>
@@ -73,18 +130,101 @@
         <p>&copy; 2026 Climate Action Project. Built with modern web technologies.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="three-scene.js"></script>
     <script>
-        const observer = new IntersectionObserver((entries) => {
+        /* ── Starfield Background ── */
+        initParticles('bg-canvas');
+
+        /* ── GSAP Setup ── */
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* Card entrance animations */
+        gsap.utils.toArray('.glass-card').forEach((card, i) => {
+            gsap.fromTo(card,
+                { opacity: 0, y: 50 },
+                {
+                    opacity: 1, y: 0,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: 'power3.out',
+                    scrollTrigger: { trigger: card, start: 'top 88%' }
+                }
+            );
+        });
+
+        /* ── Animated Stat Counters ── */
+        const statsRow = document.getElementById('stats-row');
+        const statDefs = [
+            { id: 'stat-temp', target: 1.2, prefix: '+', suffix: '°C', decimals: 1 },
+            { id: 'stat-co2',  target: 48,  prefix: '+', suffix: '%',  decimals: 0 },
+            { id: 'stat-ice',  target: 279, prefix: '',  suffix: 'B tons', decimals: 0 },
+            { id: 'stat-sea',  target: 8,   prefix: '+', suffix: 'in', decimals: 0 },
+        ];
+
+        const statObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                if (!entry.isIntersecting) return;
+                statObserver.unobserve(entry.target);
+
+                entry.target.querySelectorAll('.stat-card').forEach(card => {
+                    card.classList.add('visible');
+                });
+
+                statDefs.forEach(def => {
+                    const el = document.getElementById(def.id);
+                    if (!el) return;
+                    let start = 0;
+                    const duration = 1800;
+                    const startTime = performance.now();
+                    function tick(now) {
+                        const progress = Math.min((now - startTime) / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 4);
+                        const val = start + (def.target - start) * eased;
+                        el.textContent = def.prefix + val.toFixed(def.decimals) + def.suffix;
+                        if (progress < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                });
+            });
+        }, { threshold: 0.3 });
+        statObserver.observe(statsRow);
+
+        /* ── Progress Bars ── */
+        const progressCard = document.getElementById('progress-card');
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                progressObserver.unobserve(entry.target);
+                entry.target.querySelectorAll('.progress-fill').forEach((bar, i) => {
+                    setTimeout(() => {
+                        bar.style.width = bar.dataset.width + '%';
+                    }, i * 150);
+                });
+            });
+        }, { threshold: 0.3 });
+        progressObserver.observe(progressCard);
+
+        /* ── 3D Tilt on hover ── */
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            const glare = card.querySelector('.card-glare');
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width  - 0.5;
+                const y = (e.clientY - rect.top)  / rect.height - 0.5;
+                card.style.transform = `perspective(1200px) rotateX(${y * -16}deg) rotateY(${x * 16}deg) translateZ(8px)`;
+                if (glare) {
+                    glare.style.setProperty('--gx', `${((e.clientX - rect.left) / rect.width * 100).toFixed(1)}%`);
+                    glare.style.setProperty('--gy', `${((e.clientY - rect.top)  / rect.height * 100).toFixed(1)}%`);
                 }
             });
-        });
-        
-        document.querySelectorAll('.glass-card').forEach((el) => {
-            el.classList.add('animate-on-scroll');
-            observer.observe(el);
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+                setTimeout(() => { card.style.transition = ''; }, 500);
+            });
         });
     </script>
 </body>

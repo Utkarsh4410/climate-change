@@ -4,9 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Climate Change | Feedback</title>
+    <meta name="description" content="Share your thoughts on climate change. We value your feedback and ideas for a greener future.">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Floating label animations */
+        .field-wrap {
+            position: relative;
+            margin-bottom: 1.8rem;
+        }
+        .field-wrap label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.3s;
+        }
+        .field-wrap:focus-within label {
+            color: var(--accent-color);
+        }
+        .field-wrap .field-icon {
+            position: absolute;
+            right: 1rem;
+            top: 2.8rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+        .field-wrap:focus-within .field-icon {
+            color: var(--accent-color);
+        }
+
+        /* Radio button custom style */
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .radio-pill input { display: none; }
+        .radio-pill label {
+            padding: 0.5rem 1.4rem;
+            border: 1px solid var(--surface-border);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .radio-pill input:checked + label {
+            background: rgba(88,166,255,0.15);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+        .radio-pill label:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Character counter */
+        .char-count {
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.4rem;
+        }
+        .char-count.warning { color: #f97316; }
+        .char-count.limit   { color: #ef4444; }
+    </style>
 </head>
 <body>
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
     <nav class="navbar">
         <a href="index.html" class="nav-brand">
             <img src="img13.jpg" width="40" height="40" alt="Logo">
@@ -20,73 +93,106 @@
         </div>
     </nav>
 
+    <!-- ── Hero ── -->
     <header class="hero" style="min-height: 40vh; padding-top: 10rem;">
         <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Your voice matters
+            </div>
             <h1>We Value Your Voice</h1>
             <p>Have questions, suggestions, or want to get involved? Send us your feedback below.</p>
         </div>
     </header>
 
-    <main class="container" style="padding-top: 2rem; max-width: 800px;">
-        <div class="glass-card">
-            <h2 class="section-title">Feedback Form</h2>
-            
-            <form onsubmit="alert('Thanks for your response!'); return false;">
-                
-                <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top: 0;">
-                    <div class="form-group">
-                        <label class="form-label">First Name</label>
-                        <input type="text" name="firstname" class="form-control" placeholder="Enter first name" required>
+    <main class="container" style="padding-top: 2rem; max-width: 820px;">
+        <div class="glass-card tilt-card" id="feedback-card">
+            <div class="card-glare"></div>
+
+            <!-- Form -->
+            <div id="form-container">
+                <h2 class="section-title" style="margin-bottom: 2.5rem;">Share Your Thoughts</h2>
+
+                <form id="feedback-form" novalidate>
+
+                    <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top: 0;">
+                        <div class="field-wrap">
+                            <label for="firstname">First Name</label>
+                            <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Enter first name" required autocomplete="given-name">
+                            <span class="field-icon">👤</span>
+                        </div>
+                        <div class="field-wrap">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" id="lastname" name="secondname" class="form-control" placeholder="Enter last name" required autocomplete="family-name">
+                            <span class="field-icon">👤</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Last Name</label>
-                        <input type="text" name="secondname" class="form-control" placeholder="Enter last name" required>
+
+                    <div class="field-wrap">
+                        <label>Gender</label>
+                        <div class="radio-group">
+                            <div class="radio-pill">
+                                <input type="radio" name="gender" id="g-male" value="male" required>
+                                <label for="g-male">♂ Male</label>
+                            </div>
+                            <div class="radio-pill">
+                                <input type="radio" name="gender" id="g-female" value="female">
+                                <label for="g-female">♀ Female</label>
+                            </div>
+                            <div class="radio-pill">
+                                <input type="radio" name="gender" id="g-other" value="other">
+                                <label for="g-other">⚧ Other</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Gender</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="gender" value="male" required> Male
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="gender" value="female" required> Female
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="gender" value="other" required> Other
-                        </label>
+                    <div class="field-wrap">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="mail" class="form-control" placeholder="you@example.com" required autocomplete="email">
+                        <span class="field-icon">✉️</span>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" name="mail" class="form-control" placeholder="you@example.com" required>
-                </div>
+                    <div class="field-wrap">
+                        <label for="city">City</label>
+                        <select id="city" name="citychooser" class="form-control" required style="appearance:none; cursor:pointer;">
+                            <option value="" disabled selected>Select your city</option>
+                            <option value="del">Delhi</option>
+                            <option value="agra">Agra</option>
+                            <option value="jai">Jaipur</option>
+                            <option value="blore">Bangalore</option>
+                            <option value="mum">Mumbai</option>
+                            <option value="chen">Chennai</option>
+                            <option value="hyd">Hyderabad</option>
+                            <option value="kol">Kolkata</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <span class="field-icon">🌆</span>
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">City</label>
-                    <select name="citychooser" class="form-control" required>
-                        <option value="" disabled selected>Select your city</option>
-                        <option value="del">Delhi</option>
-                        <option value="agra">Agra</option>
-                        <option value="jai">Jaipur</option>
-                        <option value="blore">Bangalore</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
+                    <div class="field-wrap">
+                        <label for="comment">Comment</label>
+                        <textarea id="comment" name="commentfield" class="form-control" placeholder="Share your thoughts, ideas, or questions about climate change..." maxlength="500" rows="5"></textarea>
+                        <div class="char-count" id="char-count">0 / 500</div>
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">Comment</label>
-                    <textarea name="commentfield" class="form-control" placeholder="Share your thoughts with us..."></textarea>
-                </div>
+                    <div class="button-group" style="margin-top: 1rem;">
+                        <button type="submit" id="submit-btn" class="btn btn-primary btn-3d" style="flex: 1;">
+                            🌍 Send Feedback
+                        </button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
 
-                <div class="button-group">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Send Feedback</button>
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                </div>
+                </form>
+            </div>
 
-            </form>
+            <!-- Success state (hidden initially) -->
+            <div class="success-msg" id="success-msg">
+                <div class="success-icon">🌱</div>
+                <h3>Thank you!</h3>
+                <p>Your feedback has been received. Together, we can make a difference for our planet.</p>
+                <a href="index.html" class="btn btn-primary btn-3d" style="margin-top: 2rem; display: inline-block;">← Back to Home</a>
+            </div>
+
         </div>
     </main>
 
@@ -94,19 +200,121 @@
         <p>&copy; 2026 Climate Action Project. Built with modern web technologies.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        /* ── Character counter ── */
+        const commentArea  = document.getElementById('comment');
+        const charCount    = document.getElementById('char-count');
+        commentArea.addEventListener('input', () => {
+            const len = commentArea.value.length;
+            const max = parseInt(commentArea.getAttribute('maxlength'));
+            charCount.textContent = `${len} / ${max}`;
+            charCount.className = 'char-count' + (len > max * 0.9 ? ' warning' : '') + (len >= max ? ' limit' : '');
+        });
+
+        /* ── 3D Card Tilt ── */
+        const feedbackCard = document.getElementById('feedback-card');
+        const glare = feedbackCard.querySelector('.card-glare');
+        feedbackCard.addEventListener('mousemove', (e) => {
+            const rect = feedbackCard.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width  - 0.5;
+            const y = (e.clientY - rect.top)  / rect.height - 0.5;
+            feedbackCard.style.transform = `perspective(1200px) rotateX(${y * -8}deg) rotateY(${x * 8}deg)`;
+            if (glare) {
+                glare.style.setProperty('--gx', `${((e.clientX - rect.left) / rect.width * 100).toFixed(1)}%`);
+                glare.style.setProperty('--gy', `${((e.clientY - rect.top) / rect.height * 100).toFixed(1)}%`);
+            }
+        });
+        feedbackCard.addEventListener('mouseleave', () => {
+            feedbackCard.style.transform = '';
+            feedbackCard.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+            setTimeout(() => { feedbackCard.style.transition = ''; }, 600);
+        });
+
+        /* ── Confetti ── */
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.width  = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const ctx = canvas.getContext('2d');
+            const pieces = [];
+            const COLORS = ['#58a6ff','#3178c6','#fff','#a5d6a7','#ffcc00','#ff6b6b'];
+
+            for (let i = 0; i < 160; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: -20 - Math.random() * 200,
+                    w: 8 + Math.random() * 10,
+                    h: 4 + Math.random() * 6,
+                    color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: 2 + Math.random() * 4,
+                    angle: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.2,
+                    opacity: 1,
+                });
+            }
+
+            let frame = 0;
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.angle);
+                    ctx.globalAlpha = p.opacity;
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.05;
+                    p.angle += p.spin;
+                    if (p.y > canvas.height * 0.8) p.opacity -= 0.015;
+                });
+                frame++;
+                if (frame < 220) requestAnimationFrame(draw);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            draw();
+        }
+
+        /* ── Form Submit ── */
+        document.getElementById('feedback-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Basic validation
+            const fields = this.querySelectorAll('[required]');
+            let valid = true;
+            fields.forEach(f => {
+                if (!f.value.trim() || (f.type === 'email' && !f.value.includes('@'))) {
+                    f.style.borderColor = '#ef4444';
+                    f.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.2)';
+                    valid = false;
+                    setTimeout(() => { f.style.borderColor = ''; f.style.boxShadow = ''; }, 2000);
                 }
             });
+
+            // Check radio
+            if (!document.querySelector('input[name="gender"]:checked')) {
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            // Success!
+            launchConfetti();
+
+            gsap.to('#form-container', { opacity: 0, y: -20, duration: 0.4, ease: 'power2.in', onComplete: () => {
+                document.getElementById('form-container').style.display = 'none';
+                const msg = document.getElementById('success-msg');
+                msg.style.display = 'block';
+                gsap.from(msg, { opacity: 0, y: 30, duration: 0.6, ease: 'power3.out' });
+            }});
         });
-        
-        document.querySelectorAll('.glass-card').forEach((el) => {
-            el.classList.add('animate-on-scroll');
-            observer.observe(el);
-        });
+
+        /* ── Entrance animation ── */
+        gsap.from('#feedback-card', { opacity: 0, y: 50, duration: 0.9, ease: 'power3.out', delay: 0.3 });
     </script>
 </body>
 </html>
